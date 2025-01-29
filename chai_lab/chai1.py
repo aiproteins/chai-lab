@@ -917,6 +917,11 @@ def run_folding_on_context(
         scores_out_path = output_dir.joinpath(f"scores.model_idx_{idx}.npz")
 
         np.savez(scores_out_path, **get_scores(ranking_outputs))
+        scores_out_path = output_dir.joinpath(f"scores.model_idx_{idx}.npz")
+        np.savez(scores_out_path, **get_scores(ranking_outputs))
+        # Add PAE score writing
+        pae_out_path = output_dir.joinpath(f"pae.model_idx_{idx}.npy")
+        np.save(pae_out_path, pae_scores[idx].numpy())
 
     return StructureCandidates(
         cif_paths=cif_paths,
