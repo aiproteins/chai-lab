@@ -888,6 +888,12 @@ def run_folding_on_context(
             pae_bin_centers=_bin_centers(0.0, 32.0, 64).to(pae_logits.device),
         )
 
+        scores_out_path = output_dir.joinpath(f"scores.model_idx_{idx}.npz")
+        np.savez(scores_out_path, **get_scores(ranking_outputs))
+        # Add PAE score writing
+        pae_out_path = output_dir.joinpath(f"pae.model_idx_{idx}.npy")
+        np.save(pae_out_path, pae_scores[idx].numpy())
+
         ranking_data.append(ranking_outputs)
 
         ##
@@ -917,11 +923,7 @@ def run_folding_on_context(
         scores_out_path = output_dir.joinpath(f"scores.model_idx_{idx}.npz")
 
         np.savez(scores_out_path, **get_scores(ranking_outputs))
-        scores_out_path = output_dir.joinpath(f"scores.model_idx_{idx}.npz")
-        np.savez(scores_out_path, **get_scores(ranking_outputs))
-        # Add PAE score writing
-        pae_out_path = output_dir.joinpath(f"pae.model_idx_{idx}.npy")
-        np.save(pae_out_path, pae_scores[idx].numpy())
+
 
     return StructureCandidates(
         cif_paths=cif_paths,
